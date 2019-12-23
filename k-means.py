@@ -14,7 +14,8 @@ dataset = np.hstack((x,y)) # dataset stacked horizontally
 
 for i in range(dataset.shape[1]):
     dataset[:,i] = (dataset[:,i]-dataset[:,i].mean())/dataset[:,i].std()
-    
+
+
 mean = np.random.rand(K,dataset.shape[1])
 score_map = np.zeros((dataset.shape[0],K))
 
@@ -22,7 +23,7 @@ for epoch in range(epoches):
     score_map = np.zeros((dataset.shape[0],K))
     for i in range(K):
         score_map[:,i] = np.sum(np.power(dataset-mean[i,:],2),axis=1)
-    k_index = np.argmax(score_map,axis=1)
+    k_index = np.argmin(score_map,axis=1)
 
     for i in range(K):
         mean[i,:] = np.sum(dataset[np.where(k_index==i)[0],:],axis=0)/(np.where(k_index==i)[0].shape[0]+eps)

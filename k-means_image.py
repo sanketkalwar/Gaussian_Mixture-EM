@@ -4,7 +4,7 @@ import pandas as pd
 import cv2
 plt.ion()
 K = 4 #number of clusters
-epoches = 100 #number of iteration
+epoches = 10 #number of iteration
 eps = 1e-6
 data = cv2.imread('test_img.jpeg')
 h,w,c = data.shape[0],data.shape[1],data.shape[2]
@@ -24,7 +24,7 @@ for epoch in range(epoches):
     score_map = np.zeros((dataset.shape[0],K))
     for i in range(K):
         score_map[:,i] = np.sum(np.power(dataset-mean[i,:],2),axis=1)
-    k_index = np.argmax(score_map,axis=1)
+    k_index = np.argmin(score_map,axis=1)
     for i in range(K):
         mean[i,:] = np.sum(dataset[np.where(k_index==i)[0],:],axis=0)/(np.where(k_index==i)[0].shape[0]+eps)
         img_temp[np.where(k_index==i)[0],:] = l[i]
